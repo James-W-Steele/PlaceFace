@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Map Click Survey</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+    #question, #finalImage {
+      max-width: 100%;
+      max-height: 300px;
+      margin-bottom: 20px;
+    }
+    #map {
+      max-width: 100%;
+      border: 3px solid #000;
+      cursor: crosshair;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 1.2em;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Map Location Survey</h2>
+<img id="question" src="" alt="Question Image">
+<p id="counter">Question 1 of 10</p>
+
+<img id="map" src="map.png" alt="Map Image">
+<p id="result"></p>
+
+<img id="finalImage" src="final.png" alt="Final Image" style="display: none;">
+
+<script>
+  const totalQuestions = 10;
+
+  const correctPoints = [
+    [120, 150], [200, 180], [250, 220], [300, 170], [210, 300],
+    [190, 210], [230, 250], [280, 200], [260, 260], [240, 230]
+  ];
+
+  let current = 1;
+  let scores = [];
+
+  const questionImg = document.getElementById('question');
+  const mapImg = document.getElementById('map');
+  const counterText = document.getElementById('counter');
+  const resultBox = document.getElementById('result');
+  const finalImage = document.getElementById('finalImage');
+
+  function loadQuestion(num) {
+    questionImg.src = `img${num}.png`;
+    counterText.textContent = `Question ${num} of ${totalQuestions}`;
+    resultBox.textContent = '';
+  }
+
+  mapImg.addEventListener('click', function(event) {
+    const rect = mapImg.getBoundingClientRect();
+    const xRatio = mapImg.naturalWidth / rect.width;
+    const yRatio = mapImg.naturalHeight / rect.height;
+
+    const x = (event.clientX - rect.left) * xRatio;
+    const y = (event.clientY - rect.top) * yRatio;
+
+    const [correctX, correctY] = correctPoints[current - 1];
+    const dx = x - correctX;
+    const dy = y - correctY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    const score = Math.max(0, 100 - distance);
+    scores.push(Math.round(score));
+
+    if (current < totalQuestions) {
+      current++;
+      loadQuestion(current);
+    } else {
+      showResults();
+    }
+  });
+
+  function showResults() {
+    questionImg.style.display = 'none';
+    counterText.style.display = 'none';
+    mapImg.style.display = 'none';
+
+    let html = `<h3>Your Results</h3>`;
+    let total = scores.reduce((a, b) => a + b, 0);
+    scores.forEach((s, i) => {
+      html += `Question ${i + 1}: ${s} points<br>`;
+    });
+    html += `<strong>Total Score: ${total} / ${100 * totalQuestions}</strong>`;
+    resultBox.innerHTML = html;
+
+    finalImage.style.display = 'block';
+  }
+
+  // Start the first question
+  loadQuestion(current);
+</script>
+
+</body>
+</html>
