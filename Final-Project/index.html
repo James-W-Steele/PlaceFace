@@ -56,6 +56,7 @@
   <h2>Your Results</h2>
   <img id="finalImage" src="final.png" alt="Final Image">
   <p id="result"></p>
+  <p>If you're like the vast majority of people, your score should have been pretty low. You would have to be a cultural expert to have placed all of those faces correctly!<br>When meeting people for the first time, consider asking them about their cultural background! It takes 5 seconds, and it makes both parties feel more comfortable.<br>Answer Key:<br>1- Northern Manitoba, Canada (312, 116)<br>2- Tolar Grande, Salta, Argentina (368, 480)<br>3- Trinidad, Cuba (310, 265)<br>4- Johor Bahru, Malaysia (1068, 355)<br>5- Outside Kunduz Province, Afghanistan (903, 196)<br>6- Ziz Valley, Morocco (619, 218)<br>7- Madinat Zayed, Abu Dhabi (855, 256)<br>8- Italy, Martino di Castrozza (682, 157)<br>9- Flores Island, Indonesia (1139, 403)<br>10- Tashkurgan, China (934, 192)</p>
 </div>
 
 <script>
@@ -102,7 +103,7 @@
     const dy = y - correctY;
     const distance = Math.sqrt(dx * dx + dy * dy);
 
-    const normalizedScore = Math.max(0, 1 - (distance / 100)); // Scale down based on expected range
+    const normalizedScore = Math.max(0, 1 - (distance / 1000)); // Scale down based on expected range
     const score = Math.min(1, normalizedScore).toFixed(2); // Clamp to 1.00, round to 2 decimal places
     scores.push(parseFloat(score));
 
