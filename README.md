@@ -8,3 +8,5 @@ You will be presented with the faces of 10 people.
 Try to click the location on the map that you think they're from. 
 At the end, their places of origin will be revealed, and your score will be calculated.
 Good luck!
+
+https://james-w-steele.github.io/PlaceFace/Final-Project/
